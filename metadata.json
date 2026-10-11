@@ -1,0 +1,6 @@
+{
+  "name": "Wise Leaders - Birthday Live Chat 2.0",
+  "description": "Official registration landing page for Birthday Live Chat 2.0: Purposeful Living and Leading with Pst. Dr. Daniel Fadeyi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
