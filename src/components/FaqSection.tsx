@@ -31,7 +31,7 @@ export const FaqSection: React.FC = () => {
       id: 'faq-5',
       question: 'Can I submit questions in advance for Pst. Dr. Daniel Fadeyi?',
       answer:
-        'Absolutely. During the registration process, you can outline your key leadership questions in the "Why are you interested in this program?" field, or submit live questions during the interactive Q&A session.',
+        'Absolutely. You can submit questions directly during the interactive Q&A session on Zoom, or submit them through the official WhatsApp group.',
       category: 'materials',
     },
     {
