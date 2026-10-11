@@ -316,30 +316,12 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
             </button>
           </div>
 
-          {/* Footnote & Google Sheets Connection Status */}
-          <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+          {/* Footnote */}
+          <div className="pt-3 border-t border-slate-100 flex items-center justify-center text-xs text-slate-500">
             <div className="flex items-center gap-1.5 text-slate-400">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
               <span>Confidential · Secure Registration</span>
             </div>
-
-            {/* Google Sheets Live Sync Status or Connect Button */}
-            {sheetsConnected ? (
-              <div className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full font-medium">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Google Sheets connected</span>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={handleConnectSheets}
-                disabled={isConnectingSheets}
-                className="text-[11px] font-semibold text-blue-800 hover:text-blue-950 hover:underline flex items-center gap-1"
-                title="Connect your Google account so registrations record directly into your Google Sheets spreadsheet"
-              >
-                {isConnectingSheets ? 'Connecting…' : '⚡ Connect Google Sheets for live sync'}
-              </button>
-            )}
           </div>
         </form>
       </div>

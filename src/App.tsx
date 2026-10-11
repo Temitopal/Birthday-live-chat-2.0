@@ -9,12 +9,14 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
+import { RegistrationSuccessModal } from './components/RegistrationSuccessModal';
 import { DigitalTicketModal } from './components/DigitalTicketModal';
 import { LoginModal } from './components/LoginModal';
 import { RegistrationData } from './types';
 
 export default function App() {
   const [currentRegistration, setCurrentRegistration] = useState<RegistrationData | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showTicketModal, setShowTicketModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -39,7 +41,7 @@ export default function App() {
 
   const handleRegistrationSuccess = (data: RegistrationData) => {
     setCurrentRegistration(data);
-    setShowTicketModal(true);
+    setShowSuccessModal(true);
     showToast(`Welcome ${data.fullName}! Your registration has been confirmed.`);
   };
 
@@ -97,6 +99,18 @@ export default function App() {
 
       {/* 3. Footer */}
       <Footer onNavClick={(href) => scrollToSection(href)} />
+
+      {/* Registration Successful Confirmation Modal with WhatsApp Group Button */}
+      {showSuccessModal && currentRegistration && (
+        <RegistrationSuccessModal
+          data={currentRegistration}
+          onClose={() => setShowSuccessModal(false)}
+          onViewPass={() => {
+            setShowSuccessModal(false);
+            setShowTicketModal(true);
+          }}
+        />
+      )}
 
       {/* Digital Attendee Ticket Modal */}
       {showTicketModal && currentRegistration && (

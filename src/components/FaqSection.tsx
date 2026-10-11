@@ -14,13 +14,6 @@ export const FaqSection: React.FC = () => {
       category: 'general',
     },
     {
-      id: 'faq-2',
-      question: 'Is there any registration fee or tuition required?',
-      answer:
-        'No. Admission is 100% complimentary as part of Pst. Dr. Daniel Fadeyi’s annual commitment to pouring wisdom back into the global leadership ecosystem. However, pre-registration is required to receive your session access credentials and workbook materials.',
-      category: 'general',
-    },
-    {
       id: 'faq-3',
       question: 'How do I join the live session?',
       answer:
