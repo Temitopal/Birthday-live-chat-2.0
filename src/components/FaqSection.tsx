@@ -21,13 +21,6 @@ export const FaqSection: React.FC = () => {
       category: 'logistics',
     },
     {
-      id: 'faq-4',
-      question: 'Will replay recordings and session workbooks be provided?',
-      answer:
-        'Yes. All registered attendees receive complimentary access to the downloadable "Purpose Blueprint" digital workbook prior to the event, as well as priority access to post-session recap materials and key wisdom highlights.',
-      category: 'materials',
-    },
-    {
       id: 'faq-5',
       question: 'Can I submit questions in advance for Dr. Daniel Fadeyi?',
       answer:
