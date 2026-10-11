@@ -13,41 +13,51 @@ interface HeroProps {
 }
 
 /**
- * Prominent Typewriter Animation for "You Are Welcome"
- * Types character-by-character on page load with prominent text size and blinking cursor.
+ * Continuous Looping Typewriter Animation for "You Are Welcome"
+ * - Types character by character
+ * - Pauses briefly when full text is reached
+ * - Erases character by character
+ * - Repeats smoothly and continuously
+ * - No cursor, rectangle, or extra element
  */
 const TypewriterWelcome: React.FC = () => {
   const fullText = 'You Are Welcome';
   const [displayedText, setDisplayedText] = useState('');
-  const [isDone, setIsDone] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    let index = 0;
-    // Types character by character smoothly in real time
-    const interval = setInterval(() => {
-      if (index <= fullText.length) {
-        setDisplayedText(fullText.slice(0, index));
-        index++;
-      } else {
-        setIsDone(true);
-        clearInterval(interval);
-      }
-    }, 90);
+    let timer: NodeJS.Timeout;
 
-    return () => clearInterval(interval);
-  }, []);
+    if (!isDeleting && displayedText === fullText) {
+      // Pause briefly once full text is displayed
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 1600);
+    } else if (isDeleting && displayedText === '') {
+      // Pause briefly after erasing before typing starts again
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+      }, 350);
+    } else {
+      // Typing or erasing speed
+      const speed = isDeleting ? 45 : 95;
+      timer = setTimeout(() => {
+        setDisplayedText((prev) =>
+          isDeleting
+            ? fullText.slice(0, prev.length - 1)
+            : fullText.slice(0, prev.length + 1)
+        );
+      }, speed);
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting]);
 
   return (
     <div className="inline-flex items-center min-h-[46px] py-1.5 px-4 sm:px-5 rounded-full bg-amber-400/20 border-2 border-amber-400/40 backdrop-blur-md shadow-lg select-none">
       <span className="text-base sm:text-lg md:text-xl font-black text-amber-300 tracking-wider uppercase font-mono">
         {displayedText}
       </span>
-      {/* Blinking Typewriter Cursor */}
-      <span
-        className={`inline-block w-1.5 sm:w-2 h-4 sm:h-5 bg-amber-300 ml-1.5 rounded-2xs align-middle ${
-          isDone ? 'animate-pulse' : 'animate-ping'
-        }`}
-      />
     </div>
   );
 };
@@ -62,6 +72,22 @@ export const Hero: React.FC<HeroProps> = ({
       id="hero"
       className="relative pt-28 pb-16 md:pt-36 md:pb-24 text-white overflow-hidden min-h-[92vh] bg-transparent"
     >
+      {/* Background Video Covering Entire First Page Section & Blending Naturally */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none -z-10" aria-hidden="true">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover object-center opacity-40 mix-blend-screen"
+        >
+          <source src="/background_video.mp4" type="video/mp4" />
+        </video>
+        {/* Natural Blending Vignette & Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040E26]/80 via-transparent to-[#040E26]/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1px] pointer-events-none" />
+      </div>
+
       {/* Subtle Floating Ambient Motion Lights */}
       <motion.div
         animate={{
@@ -79,9 +105,9 @@ export const Hero: React.FC<HeroProps> = ({
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-2">
-        {/* Top Header Zone: Prominent Typewriter Eyebrow, Main Headline, Copy, Logistics */}
+        {/* Top Header Zone: Continuous Typewriter Eyebrow, Main Headline, Copy, Logistics */}
         <div className="max-w-4xl mb-10 md:mb-12">
-          {/* Prominent Typewriter "You Are Welcome" (Automatically types on load, larger text) */}
+          {/* Continuous Looping Typewriter "You Are Welcome" (No Cursor, Prominent Size) */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
