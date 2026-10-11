@@ -50,7 +50,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   const handleDemoLookup = () => {
     const demoData: RegistrationData = {
       id: 'WL-7821',
-      fullName: 'Pst. Dr. Daniel Fadeyi VIP Guest',
+      fullName: 'Dr. Daniel Fadeyi VIP Guest',
       email: query.trim() || 'attendee@wiseleaders.org',
       phone: '+234 802 345 6789',
       referralSource: 'Wise Leaders Workshop Alumni Network',

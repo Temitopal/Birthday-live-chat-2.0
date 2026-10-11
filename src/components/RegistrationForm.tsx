@@ -1,7 +1,59 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Send, User, Mail, Phone, HelpCircle, Ticket, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Send, User, Mail, HelpCircle, Ticket, AlertCircle, ChevronDown } from 'lucide-react';
 import { RegistrationData } from '../types';
 import { submitToGoogleAppsScript } from '../services/appsScript';
+
+interface CountryDialCode {
+  name: string;
+  code: string;
+  flag: string;
+}
+
+const COUNTRY_DIAL_CODES: CountryDialCode[] = [
+  { name: 'Nigeria', code: '+234', flag: '🇳🇬' },
+  { name: 'United Kingdom', code: '+44', flag: '🇬🇧' },
+  { name: 'United States', code: '+1', flag: '🇺🇸' },
+  { name: 'Canada', code: '+1', flag: '🇨🇦' },
+  { name: 'Ghana', code: '+233', flag: '🇬🇭' },
+  { name: 'Kenya', code: '+254', flag: '🇰🇪' },
+  { name: 'South Africa', code: '+27', flag: '🇿🇦' },
+  { name: 'United Arab Emirates', code: '+971', flag: '🇦🇪' },
+  { name: 'Australia', code: '+61', flag: '🇦🇺' },
+  { name: 'Benin', code: '+229', flag: '🇧🇯' },
+  { name: 'Botswana', code: '+267', flag: '🇧🇼' },
+  { name: 'Brazil', code: '+55', flag: '🇧🇷' },
+  { name: 'Cameroon', code: '+237', flag: '🇨🇲' },
+  { name: 'China', code: '+86', flag: '🇨🇳' },
+  { name: 'Cote d\'Ivoire', code: '+225', flag: '🇨🇮' },
+  { name: 'Egypt', code: '+20', flag: '🇪🇬' },
+  { name: 'France', code: '+33', flag: '🇫🇷' },
+  { name: 'Gambia', code: '+220', flag: '🇬🇲' },
+  { name: 'Germany', code: '+49', flag: '🇩🇪' },
+  { name: 'India', code: '+91', flag: '🇮🇳' },
+  { name: 'Ireland', code: '+353', flag: '🇮🇪' },
+  { name: 'Israel', code: '+972', flag: '🇮🇱' },
+  { name: 'Italy', code: '+39', flag: '🇮🇹' },
+  { name: 'Japan', code: '+81', flag: '🇯🇵' },
+  { name: 'Liberia', code: '+231', flag: '🇱🇷' },
+  { name: 'Malaysia', code: '+60', flag: '🇲🇾' },
+  { name: 'Netherlands', code: '+31', flag: '🇳🇱' },
+  { name: 'New Zealand', code: '+64', flag: '🇳🇿' },
+  { name: 'Niger', code: '+227', flag: '🇳🇪' },
+  { name: 'Pakistan', code: '+92', flag: '🇵🇰' },
+  { name: 'Philippines', code: '+63', flag: '🇵🇭' },
+  { name: 'Qatar', code: '+974', flag: '🇶🇦' },
+  { name: 'Rwanda', code: '+250', flag: '🇷🇼' },
+  { name: 'Saudi Arabia', code: '+966', flag: '🇸🇦' },
+  { name: 'Sierra Leone', code: '+232', flag: '🇸🇱' },
+  { name: 'Singapore', code: '+65', flag: '🇸🇬' },
+  { name: 'Spain', code: '+34', flag: '🇪🇸' },
+  { name: 'Switzerland', code: '+41', flag: '🇨🇭' },
+  { name: 'Tanzania', code: '+255', flag: '🇹🇿' },
+  { name: 'Togo', code: '+228', flag: '🇹🇬' },
+  { name: 'Uganda', code: '+256', flag: '🇺🇬' },
+  { name: 'Zambia', code: '+260', flag: '🇿🇲' },
+  { name: 'Zimbabwe', code: '+263', flag: '🇿🇼' },
+];
 
 interface RegistrationFormProps {
   onSuccess: (data: RegistrationData) => void;
@@ -16,6 +68,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
 }) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
+  const [countryCode, setCountryCode] = useState('+234');
   const [phone, setPhone] = useState('');
   const [referralSource, setReferralSource] = useState('');
   const [agreeToUpdates, setAgreeToUpdates] = useState(true);
@@ -40,9 +93,9 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
       errs.email = 'Please provide a valid email address.';
     }
 
-    const cleanedPhone = phone.replace(/[^0-9+]/g, '');
-    if (!phone.trim() || cleanedPhone.length < 7) {
-      errs.phone = 'Please enter a valid phone number (min 7 digits).';
+    const cleanedDigits = phone.replace(/[^0-9]/g, '');
+    if (!phone.trim() || cleanedDigits.length < 5) {
+      errs.phone = 'Please enter a valid phone number.';
     }
 
     if (!referralSource) {
@@ -74,11 +127,17 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
       pendingPassCode ||
       `WL2026-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
+    // Combine selected country code with phone number
+    const trimmedPhone = phone.trim();
+    const finalPhone = trimmedPhone.startsWith('+')
+      ? trimmedPhone
+      : `${countryCode} ${trimmedPhone.replace(/^0+/, '')}`;
+
     const newRegistration: RegistrationData = {
       id: registrationId,
       fullName: fullName.trim(),
       email: email.trim().toLowerCase(),
-      phone: phone.trim(),
+      phone: finalPhone,
       referralSource,
       agreeToUpdates,
       registeredAt: new Date().toISOString(),
@@ -215,24 +274,42 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
                 )}
               </div>
 
-              {/* Phone Number */}
+              {/* Phone Number with Country Dial Code */}
               <div>
                 <label htmlFor="phone" className="block text-xs sm:text-sm font-semibold text-slate-800 mb-1">
                   Phone Number <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                    <Phone className="w-4 h-4" />
+                <div
+                  className={`flex rounded-xl border bg-slate-50/50 focus-within:bg-white transition-colors focus-within:ring-2 focus-within:ring-blue-900 focus-within:border-transparent ${
+                    errors.phone ? 'border-red-400 ring-1 ring-red-400' : 'border-slate-200'
+                  }`}
+                >
+                  {/* Country Selector */}
+                  <div className="relative flex items-center shrink-0 border-r border-slate-200 bg-slate-100/70 rounded-l-xl">
+                    <select
+                      id="countryCode"
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      aria-label="Country dial code"
+                      className="appearance-none pl-2.5 pr-6 py-2.5 sm:py-3 bg-transparent text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none cursor-pointer"
+                    >
+                      {COUNTRY_DIAL_CODES.map((c) => (
+                        <option key={`${c.name}-${c.code}`} value={c.code}>
+                          {c.flag} {c.code} ({c.name})
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-500 absolute right-1.5 pointer-events-none" />
                   </div>
+
+                  {/* Local Phone Digits */}
                   <input
                     id="phone"
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+234 803 000 0000"
-                    className={`w-full pl-10 pr-3.5 py-2.5 sm:py-3 rounded-xl border text-xs sm:text-sm text-slate-900 bg-slate-50/50 focus:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent ${
-                      errors.phone ? 'border-red-400 ring-1 ring-red-400' : 'border-slate-200'
-                    }`}
+                    placeholder="803 000 0000"
+                    className="w-full px-3.5 py-2.5 sm:py-3 rounded-r-xl bg-transparent text-xs sm:text-sm text-slate-900 focus:outline-none"
                   />
                 </div>
                 {errors.phone && (
@@ -261,9 +338,8 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
                   <option value="">Select how you heard about us...</option>
                   <option value="Social Media (Instagram, LinkedIn, X, Facebook)">Social Media (Instagram, LinkedIn, X, Facebook)</option>
                   <option value="Colleague or Friend Recommendation">Colleague or Friend Recommendation</option>
-                  <option value="Church or Fellowship Community">Church or Fellowship Community</option>
                   <option value="Email Invitation / Newsletter">Email Invitation / Newsletter</option>
-                  <option value="Direct Word of Mouth from Pst. Dr. Fadeyi">Direct Word of Mouth from Pst. Dr. Fadeyi</option>
+                  <option value="Direct Word of Mouth from Dr. Fadeyi">Direct Word of Mouth from Dr. Fadeyi</option>
                   <option value="Other">Other</option>
                 </select>
               </div>

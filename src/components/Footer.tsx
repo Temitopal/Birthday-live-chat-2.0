@@ -1,22 +1,18 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Youtube, Linkedin, Instagram, Twitter, Facebook, ArrowUp } from 'lucide-react';
+import { Mail, Youtube, Instagram } from 'lucide-react';
 import { BirthdayLiveChatBadge } from './BirthdayLiveChatBadge';
 
 interface FooterProps {
-  onNavClick: (href: string) => void;
+  onNavClick?: (href: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
+export const Footer: React.FC<FooterProps> = () => {
   return (
     <footer className="bg-[#020716] text-white pt-16 pb-12 border-t border-blue-900/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-blue-900/30">
-          {/* Column 1: Program Logo & Short Description (lg:col-span-5) */}
-          <div className="lg:col-span-5 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 pb-12 border-b border-blue-900/30">
+          {/* Column 1: Program Logo & Short Description */}
+          <div className="space-y-4 max-w-md">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white rounded-xl p-1 flex items-center justify-center shrink-0 shadow-sm">
                 <img
@@ -30,120 +26,54 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
               </div>
             </div>
 
-            <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-              The annual value-driven gathering celebrating the birthday of Pst. Dr. Daniel Fadeyi. Inspiring emerging and established leaders to discover purpose, live intentionally, and lead with clarity and lasting impact.
+            <p className="text-sm text-slate-400 leading-relaxed">
+              The annual value-driven gathering celebrating the birthday of Dr. Daniel Fadeyi. Inspiring emerging and established leaders to discover purpose, live intentionally, and lead with clarity and lasting impact.
             </p>
+          </div>
 
-            <div className="pt-2 flex items-center gap-3 text-slate-400">
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-slate-900 hover:bg-blue-900 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-slate-900 hover:bg-red-700 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
-                aria-label="YouTube"
-              >
-                <Youtube className="w-4 h-4" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-slate-900 hover:bg-pink-700 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-slate-900 hover:bg-blue-600 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
-                aria-label="X / Twitter"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-9 h-9 rounded-full bg-slate-900 hover:bg-blue-800 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-4 h-4" />
-              </a>
+          {/* Column 2: Contact Information */}
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-3">
+                Contact Information
+              </h4>
+              <div className="space-y-3 text-sm text-slate-300">
+                <div className="flex items-start gap-3">
+                  <Mail className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-slate-400 text-xs block">Email</span>
+                    <a href="mailto:wiseleadersworkshop@gmail.com" className="hover:text-white transition-colors">
+                      wiseleadersworkshop@gmail.com
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Column 2: Navigation Links (lg:col-span-3) */}
-          <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400">
-              Navigation
-            </h4>
-            <ul className="space-y-2.5 text-sm text-slate-300">
-              <li>
-                <button
-                  onClick={() => onNavClick('#hero')}
-                  className="hover:text-amber-400 transition-colors text-left"
+            {/* Follow Us */}
+            <div className="pt-1">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-3">
+                Follow Us
+              </h4>
+              <div className="flex items-center gap-3 text-slate-400">
+                <a
+                  href="https://youtube.com/@wiseleadersworkshop?si=SB42AgbcT0wXELWf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full bg-slate-900 hover:bg-red-700 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                  aria-label="Wise Leaders Workshop YouTube Channel"
                 >
-                  Program Overview
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavClick('#register')}
-                  className="hover:text-amber-400 transition-colors text-left"
+                  <Youtube className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://www.instagram.com/wise_leaders_workshop?dlrf=MWo0OGt1aGh6bGh0Zg=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full bg-slate-900 hover:bg-pink-700 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                  aria-label="Wise Leaders Workshop Instagram Profile"
                 >
-                  Registration
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavClick('#faq')}
-                  className="hover:text-amber-400 transition-colors text-left"
-                >
-                  Frequently Asked Questions
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Contact Information (lg:col-span-4) */}
-          <div className="lg:col-span-4 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400">
-              Contact Information
-            </h4>
-            <div className="space-y-3 text-sm text-slate-300">
-              <div className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-slate-400 text-xs block">Secretariat Email</span>
-                  <a href="mailto:info@wiseleadersworkshop.org" className="hover:text-white transition-colors">
-                    info@wiseleadersworkshop.org
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-slate-400 text-xs block">Attendee Support</span>
-                  <span className="text-slate-200">+234 (0) 803 200 4589</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-slate-400 text-xs block">Global Fellowship Headquarters</span>
-                  <span className="text-slate-200">Wise Leaders Workshop Center, Lagos, Nigeria</span>
-                </div>
+                  <Instagram className="w-4 h-4" />
+                </a>
               </div>
             </div>
           </div>

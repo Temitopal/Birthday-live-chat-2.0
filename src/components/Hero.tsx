@@ -140,7 +140,7 @@ export const Hero: React.FC<HeroProps> = ({
             className="space-y-3.5 text-base sm:text-lg text-slate-200 leading-relaxed max-w-3xl"
           >
             <p>
-              The <strong className="font-semibold text-white">Birthday Live Chat 2.0</strong> is the second edition of the annual value-driven program celebrating the birthday of <strong className="font-semibold text-amber-300">Pst. Dr. Daniel Fadeyi</strong>, Visionary Leader of Wise Leaders Workshop.
+              The <strong className="font-semibold text-white">Birthday Live Chat 2.0</strong> is the second edition of the annual value-driven program celebrating the birthday of <strong className="font-semibold text-amber-300">Dr. Daniel Fadeyi</strong>, Visionary Leader of Wise Leaders Workshop.
             </p>
             <p>
               This year’s theme, <span className="font-bold text-amber-400">“PURPOSEFUL LIVING, PURPOSEFUL LEADING,”</span> explores how to discover your purpose, live intentionally, and lead with clarity and impact.

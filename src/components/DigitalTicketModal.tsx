@@ -28,8 +28,8 @@ export const DigitalTicketModal: React.FC<DigitalTicketModalProps> = ({ data, on
       'DTSTAMP:20261010T120000Z',
       'DTSTART:20261024T180000Z',
       'DTEND:20261024T210000Z',
-      'SUMMARY:Birthday Live Chat 2.0: PURPOSEFUL LIVING, PURPOSEFUL LEADING with Pst. Dr. Daniel Fadeyi',
-      'DESCRIPTION:Celebrating the birthday of Pst. Dr. Daniel Fadeyi with an executive live session on PURPOSEFUL LIVING, PURPOSEFUL LEADING. Your Pass ID is ' + data.id,
+      'SUMMARY:Birthday Live Chat 2.0: PURPOSEFUL LIVING, PURPOSEFUL LEADING with Dr. Daniel Fadeyi',
+      'DESCRIPTION:Celebrating the birthday of Dr. Daniel Fadeyi with an executive live session on PURPOSEFUL LIVING, PURPOSEFUL LEADING. Your Pass ID is ' + data.id,
       'LOCATION:Live on Zoom',
       'STATUS:CONFIRMED',
       'END:VEVENT',
@@ -48,8 +48,8 @@ export const DigitalTicketModal: React.FC<DigitalTicketModalProps> = ({ data, on
   const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
     'Birthday Live Chat 2.0: Purposeful Living and Leading'
   )}&dates=20261024T090000Z/20261024T130000Z&details=${encodeURIComponent(
-    `Official leadership session with Pst. Dr. Daniel Fadeyi. Attendee Pass: ${data.id} - ${data.accessPassCode}`
-  )}&location=${encodeURIComponent('Wise Leaders Live Portal / Lagos, Nigeria')}`;
+    `Official leadership session with Dr. Daniel Fadeyi. Attendee Pass: ${data.id} - ${data.accessPassCode}`
+  )}&location=${encodeURIComponent('Live on Zoom')}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">

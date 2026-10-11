@@ -10,7 +10,7 @@ export const FaqSection: React.FC = () => {
       id: 'faq-1',
       question: 'What is Birthday Live Chat 2.0 and who should attend?',
       answer:
-        'Birthday Live Chat 2.0 is an annual value-driven leadership gathering celebrating the birthday of Pst. Dr. Daniel Fadeyi. It is designed for emerging leaders, executives, church workers, professionals, entrepreneurs, and anyone yearning to discover their authentic purpose, live deliberately, and lead with clarity and lasting impact.',
+        'Birthday Live Chat 2.0 is an annual value-driven leadership gathering celebrating the birthday of Dr. Daniel Fadeyi. It is designed for emerging leaders, executives, professionals, entrepreneurs, and anyone yearning to discover their authentic purpose, live deliberately, and lead with clarity and lasting impact.',
       category: 'general',
     },
     {
@@ -29,17 +29,10 @@ export const FaqSection: React.FC = () => {
     },
     {
       id: 'faq-5',
-      question: 'Can I submit questions in advance for Pst. Dr. Daniel Fadeyi?',
+      question: 'Can I submit questions in advance for Dr. Daniel Fadeyi?',
       answer:
         'Absolutely. You can submit questions directly during the interactive Q&A session on Zoom, or submit them through the official WhatsApp group.',
       category: 'materials',
-    },
-    {
-      id: 'faq-6',
-      question: 'Can I invite members of my executive team or church fellowship?',
-      answer:
-        'Yes! We encourage leaders to invite their teams. Each participant should register individually so they receive their unique Attendee Pass and personalized session materials.',
-      category: 'logistics',
     },
   ];
 
