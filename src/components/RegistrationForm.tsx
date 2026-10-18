@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Send, User, Mail, HelpCircle, Ticket, AlertCircle, ChevronDown } from 'lucide-react';
 import { RegistrationData } from '../types';
-import { submitToGoogleAppsScript } from '../services/appsScript';
+import { submitRegistrationToFormspree } from '../services/formspree';
+import { FORMSPREE_ENDPOINT } from '../config';
 
 interface CountryDialCode {
   name: string;
@@ -113,6 +114,10 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (isSubmitting) {
+      return;
+    }
+
     if (!validate()) {
       return;
     }
@@ -144,8 +149,8 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
       accessPassCode: registrationCode,
     };
 
-    // 1. Submit form data to Google Sheets via Google Apps Script Web App
-    const result = await submitToGoogleAppsScript(newRegistration);
+    // 1. Submit form data to Formspree endpoint
+    const result = await submitRegistrationToFormspree(newRegistration);
 
     if (!result.success) {
       setIsSubmitting(false);
@@ -154,12 +159,13 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
       setPendingPassCode(registrationCode);
       setSubmitError(
         result.error ||
-          'Failed to record registration in Google Sheets. Please check your connection and retry.'
+          'Failed to record registration in Formspree. Please check your connection and retry.'
       );
+      // DO NOT trigger success or navigate to WhatsApp on error
       return;
     }
 
-    // 2. Only after confirmed successful submission, save locally
+    // 2. Only after confirmed successful Formspree submission, save locally
     try {
       const stored = localStorage.getItem('wl_registrations');
       const list: RegistrationData[] = stored ? JSON.parse(stored) : [];
@@ -176,7 +182,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     setPendingPassId(null);
     setPendingPassCode(null);
 
-    // 3. Trigger Registration Successful screen
+    // 3. Trigger Registration Successful screen (with WhatsApp invite link)
     onSuccess(newRegistration);
   };
 
@@ -220,7 +226,13 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="space-y-4 sm:space-y-5 flex-1 flex flex-col justify-between">
+        <form
+          action={FORMSPREE_ENDPOINT}
+          method="POST"
+          onSubmit={handleSubmit}
+          noValidate
+          className="space-y-4 sm:space-y-5 flex-1 flex flex-col justify-between"
+        >
           <div className="space-y-4 sm:space-y-5">
             {/* Full Name */}
             <div>
@@ -233,7 +245,9 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
                 </div>
                 <input
                   id="fullName"
+                  name="fullName"
                   type="text"
+                  autoComplete="name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="e.g. Dr. Jane Doe"
@@ -260,7 +274,9 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
                   </div>
                   <input
                     id="email"
+                    name="email"
                     type="email"
+                    autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="jane@example.com"
@@ -288,6 +304,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
                   <div className="relative flex items-center shrink-0 border-r border-slate-200 bg-slate-100/70 rounded-l-xl">
                     <select
                       id="countryCode"
+                      name="countryCode"
                       value={countryCode}
                       onChange={(e) => setCountryCode(e.target.value)}
                       aria-label="Country dial code"
@@ -305,7 +322,9 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
                   {/* Local Phone Digits */}
                   <input
                     id="phone"
+                    name="phone"
                     type="tel"
+                    autoComplete="tel-national"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="803 000 0000"
@@ -329,6 +348,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
                 </div>
                 <select
                   id="referralSource"
+                  name="referralSource"
                   value={referralSource}
                   onChange={(e) => setReferralSource(e.target.value)}
                   className={`w-full pl-10 pr-3.5 py-2.5 sm:py-3 rounded-xl border text-xs sm:text-sm text-slate-900 bg-slate-50/50 focus:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent ${
@@ -352,6 +372,8 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
             <div>
               <label className="flex items-start gap-2.5 cursor-pointer select-none">
                 <input
+                  id="agreeToUpdates"
+                  name="agreeToUpdates"
                   type="checkbox"
                   checked={agreeToUpdates}
                   onChange={(e) => setAgreeToUpdates(e.target.checked)}
