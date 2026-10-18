@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { FaqItem } from '../types';
+import secondSectionBg from '../assets/images/second_section_bg.jpg';
 
 export const FaqSection: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>('faq-1');
@@ -34,8 +35,19 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-20 md:py-28 bg-[#040E26] text-white border-t border-blue-900/40">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="relative py-20 md:py-28 bg-[#040E26] text-white border-t border-blue-900/40 overflow-hidden">
+      {/* Background image applied strictly to second section with 18% opacity & dark contrast overlay */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden" aria-hidden="true">
+        <img
+          src={secondSectionBg}
+          alt=""
+          className="w-full h-full object-cover object-center opacity-20"
+        />
+        {/* Semi-transparent overlay to ensure text and buttons remain crisp and highly legible */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040E26]/90 via-[#040E26]/80 to-[#040E26]/95" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-14">
           <span className="text-xs font-bold uppercase tracking-widest text-amber-400 block mb-2">
@@ -56,10 +68,10 @@ export const FaqSection: React.FC = () => {
             return (
               <div
                 key={faq.id}
-                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                className={`rounded-2xl border transition-all duration-200 overflow-hidden backdrop-blur-md ${
                   isOpen
-                    ? 'border-blue-600/60 bg-blue-950/60 shadow-lg'
-                    : 'border-blue-900/50 bg-[#061536]/70 hover:border-blue-700/60'
+                    ? 'border-blue-600/60 bg-blue-950/75 shadow-lg'
+                    : 'border-blue-900/50 bg-[#061536]/80 hover:border-blue-700/60'
                 }`}
               >
                 <button

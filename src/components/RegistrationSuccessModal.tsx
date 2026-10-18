@@ -1,6 +1,7 @@
 import React from 'react';
 import { CheckCircle2, ArrowRight, X, MessageCircle } from 'lucide-react';
 import { RegistrationData } from '../types';
+import { WHATSAPP_GROUP_INVITE_URL } from '../config';
 
 interface RegistrationSuccessModalProps {
   data: RegistrationData;
@@ -13,7 +14,7 @@ export const RegistrationSuccessModal: React.FC<RegistrationSuccessModalProps> =
   onClose,
   onViewPass,
 }) => {
-  const whatsappUrl = 'https://bit.ly/BIRTHDAYLIVECHAT';
+  const whatsappUrl = WHATSAPP_GROUP_INVITE_URL;
 
   return (
     <div
@@ -77,6 +78,7 @@ export const RegistrationSuccessModal: React.FC<RegistrationSuccessModalProps> =
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Join official WhatsApp group (opens in a new tab)"
             className="w-full flex items-center justify-center gap-3 py-4 px-6 text-base sm:text-lg font-black text-white bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1da850] rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.01] active:scale-[0.99] text-center focus-visible:outline-2 focus-visible:outline-emerald-600"
           >
             <MessageCircle className="w-6 h-6 fill-white" />

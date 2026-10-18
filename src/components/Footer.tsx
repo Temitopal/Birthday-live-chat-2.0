@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail, Youtube, Instagram } from 'lucide-react';
-import { BirthdayLiveChatBadge } from './BirthdayLiveChatBadge';
+import birthdayBadgeImg from '../assets/images/birthday_live_chat_footer_badge.png';
+import thirdSectionBg from '../assets/images/third_section_bg.jpg';
 
 interface FooterProps {
   onNavClick?: (href: string) => void;
@@ -8,8 +9,19 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = () => {
   return (
-    <footer className="bg-[#020716] text-white pt-16 pb-12 border-t border-blue-900/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="relative bg-[#020716] text-white pt-16 pb-12 border-t border-blue-900/40 overflow-hidden">
+      {/* Background image applied strictly to third section with ~20% opacity & dark contrast overlay */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden" aria-hidden="true">
+        <img
+          src={thirdSectionBg}
+          alt=""
+          className="w-full h-full object-cover object-center opacity-20"
+        />
+        {/* Semi-transparent overlay to ensure text, headings, links and icons remain clear and readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020716]/90 via-[#020716]/85 to-[#020716]/95" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 pb-12 border-b border-blue-900/30">
           {/* Column 1: Program Logo & Short Description */}
           <div className="space-y-4 max-w-md">
@@ -22,7 +34,11 @@ export const Footer: React.FC<FooterProps> = () => {
                 />
               </div>
               <div className="border-l border-blue-800/60 pl-3">
-                <BirthdayLiveChatBadge size="sm" />
+                <img
+                  src={birthdayBadgeImg}
+                  alt="Birthday Live Chat 2.0"
+                  className="h-10 sm:h-12 w-auto object-contain drop-shadow-md select-none"
+                />
               </div>
             </div>
 
